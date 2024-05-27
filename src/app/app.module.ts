@@ -6,6 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { CurrentUserMiddleware } from 'src/utility/middlewares/current-user.middleware';
 import { LoggerMiddleware } from 'src/utility/middlewares/logger.middleware';
+import { MediaModule } from './media/media.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import * as path from 'path';
 
 @Module({
   imports: [
@@ -30,8 +33,12 @@ import { LoggerMiddleware } from 'src/utility/middlewares/logger.middleware';
         signOptions: { expiresIn: '10d' },
       }),
     }),
+    ServeStaticModule.forRoot({
+      rootPath: path.join(__dirname, '../../', 'static'),
+    }),
     AuthModule,
     UsersModule,
+    MediaModule,
   ],
   controllers: [],
   providers: [],

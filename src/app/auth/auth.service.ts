@@ -8,6 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { SignInAuthDto } from './dto/signin-auth.dto';
+import { currentUserDto } from '../users/dto/currentUser.dto';
 
 @Injectable()
 export class AuthService {
@@ -24,6 +25,12 @@ export class AuthService {
     );
     if (userExists)
       throw new BadRequestException('با این ایمیل حسابی از قبل وجود دارد');
+    const checkUniqueUsername = await this.usersService.findOneUserByUsername(
+      signupAuthDto.username,
+    );
+    if (checkUniqueUsername)
+      throw new BadRequestException('این نام کاربری از قبل وجود دارد');
+
     signupAuthDto.password = await bcrypt.hash(signupAuthDto.password, 10);
     const dataUser = { ...signupAuthDto, role: 'user' };
     let user = await this.userRepository.create(dataUser);
@@ -54,7 +61,13 @@ export class AuthService {
   async createJwtToken(id, username) {
     const payload = { sub: id, username };
     const secret = this.configService.get<string>('SECRET_JWT');
-    const expiresIn = this.configService.get<string>('JWT_EXPIRE_TOME');
+    const expiresIn =
+      Number(this.configService.get<string>('JWT_EXPIRE_TOME')) * 24 * 60 * 60;
     return await this.jwtService.signAsync(payload, { secret, expiresIn });
+  }
+
+  async checkLoginUser(currentUser: currentUserDto) {
+    if (currentUser) return { data: true };
+    if (!currentUser) return { data: false };
   }
 }
