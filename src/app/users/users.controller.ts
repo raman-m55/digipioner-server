@@ -59,7 +59,7 @@ export class UsersController {
     @Param('id', ParseIntPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return this.usersService.updateUserBuId(+id, updateUserDto);
+    return this.usersService.updateUserById(+id, updateUserDto);
   }
 
   @ApiParam({

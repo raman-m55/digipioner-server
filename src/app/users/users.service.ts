@@ -55,13 +55,14 @@ export class UsersService {
     };
   }
 
-  async updateUserBuId(id: number, updateUserDto: UpdateUserDto) {
+  async updateUserById(id: number, updateUserDto: UpdateUserDto) {
     await this.userRepository.update(id, updateUserDto);
+    return { message: 'کاربر با به روز رسانی حذف شد' };
   }
 
   async removeUserById(id: number) {
     await this.userRepository.delete(id);
-    return { message: 'گاربر با موفقیت حذف شد' };
+    return { message: 'کاربر با موفقیت حذف شد' };
   }
 
   async dataUser(currentUser: currentUserDto) {
