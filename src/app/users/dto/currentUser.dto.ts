@@ -1,6 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Category } from 'src/app/categories/entities/category.entity';
 
 export class currentUserDto {
+  @ApiProperty()
+  id: number;
+
   @ApiProperty()
   username: string;
 
@@ -11,5 +15,17 @@ export class currentUserDto {
   email: string;
 
   @ApiProperty()
-  user: string;
+  role: string;
+
+  @ApiProperty()
+  password: string;
+
+  @ApiProperty()
+  createdAt: Date;
+
+  @ApiProperty()
+  updatedAt: Date;
+
+  @ApiProperty({ type: () => [Category] })
+  categories: Category[];
 }

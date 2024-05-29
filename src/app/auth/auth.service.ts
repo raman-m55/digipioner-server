@@ -67,7 +67,12 @@ export class AuthService {
   }
 
   async checkLoginUser(currentUser: currentUserDto) {
-    if (currentUser) return { data: true };
-    if (!currentUser) return { data: false };
+    if (currentUser && currentUser.role === 'admin') {
+      return { isLogin: true, isAdmin: true };
+    }
+    if (currentUser && currentUser.role === 'user') {
+      return { isLogin: true, isAdmin: false };
+    }
+    if (!currentUser) return { isLogin: false, isAdmin: false };
   }
 }

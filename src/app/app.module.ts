@@ -4,11 +4,12 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
-import { CurrentUserMiddleware } from 'src/utility/middlewares/current-user.middleware';
 import { LoggerMiddleware } from 'src/utility/middlewares/logger.middleware';
 import { MediaModule } from './media/media.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { CategoriesModule } from './categories/categories.module';
 import * as path from 'path';
+import { CurrentUserMiddleware } from 'src/utility/middlewares/current-user.middleware';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import * as path from 'path';
     AuthModule,
     UsersModule,
     MediaModule,
+    CategoriesModule,
   ],
   controllers: [],
   providers: [],

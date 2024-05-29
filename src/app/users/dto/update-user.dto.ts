@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsIn,
-  IsNotEmpty,
+  IsOptional,
   IsString,
   MaxLength,
   MinLength,
@@ -13,7 +13,6 @@ export class UpdateUserDto {
     minLength: 3,
     maxLength: 20,
   })
-  @IsNotEmpty({ message: 'لطفا نام کاربری را وارد کنید' })
   @IsString()
   @MinLength(3, { message: 'نام کاربری باید حداقل ۳ کاراکتر باشد' })
   @MaxLength(20, { message: 'نام کاربری نمی‌تواند بیش از ۲۰ کاراکتر باشد' })
@@ -24,6 +23,7 @@ export class UpdateUserDto {
     enum: ['user', 'admin'],
     example: 'user',
   })
+  @IsOptional()
   @IsIn(['user', 'admin'], { message: 'نقش باید یا user باشد یا admin' })
   role: string;
 }

@@ -26,7 +26,6 @@ export class CurrentUserMiddleware implements NestMiddleware {
         const token = authHeader.split(' ')[1];
         const { sub } = this.jwtService.verify(token);
         const currentUser = await this.usersService.findOneUserById(+sub);
-        delete currentUser.password;
         req.currentUser = currentUser;
         next();
       } catch (error) {

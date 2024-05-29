@@ -1,32 +1,20 @@
-import { Category } from 'src/app/categories/entities/category.entity';
+import { User } from 'src/app/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class User {
+export class Category {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'varchar', nullable: false, unique: true })
-  username: string;
-
-  @Column({ type: 'varchar', nullable: false })
-  display_name: string;
-
-  @Column({ type: 'varchar', nullable: false, unique: true })
-  email: string;
-
-  @Column({ type: 'varchar', nullable: false })
-  password: string;
-
-  @Column({ type: 'varchar', nullable: false })
-  role: string;
+  title: string;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -41,6 +29,6 @@ export class User {
   })
   updatedAt: Date;
 
-  @OneToMany(() => Category, (cat) => cat.addedBy)
-  categories: Category[];
+  @ManyToOne(() => User, (user) => user.categories)
+  addedBy: User;
 }

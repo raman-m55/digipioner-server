@@ -7,17 +7,29 @@ import {
   ParseIntPipe,
   Patch,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { PagingDto } from './dto/Paging.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { CurrentUser } from 'src/utility/decorators/current-user.decorator';
 import { currentUserDto } from './dto/currentUser.dto';
-import { ApiParam, ApiResponse } from '@nestjs/swagger';
-
+import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/utility/decorators/roles.decorator';
+import { AuthorizationGuard } from 'src/utility/guards/authorization.guard';
+import { Role } from 'src/utility/common/user-role.enum';
+import { AuthenticationGuard } from 'src/utility/guards/authentication.guard';
+import { CurrentUser } from 'src/utility/decorators/current-user.decorator';
+@ApiTags('users')
+@Roles(Role.Admin)
+@UseGuards(AuthenticationGuard, AuthorizationGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
+
+  @Get('me')
+  async me(@CurrentUser() currentUser: currentUserDto) {
+    return await this.usersService.dataUser(currentUser);
+  }
 
   @Get()
   findAll(@Query() pagingDto: PagingDto) {
@@ -57,10 +69,5 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: string) {
     return this.usersService.removeUserById(+id);
-  }
-
-  @Get('me')
-  me(@CurrentUser() currentUser: currentUserDto) {
-    return this.usersService.checkLoginUser(currentUser);
   }
 }

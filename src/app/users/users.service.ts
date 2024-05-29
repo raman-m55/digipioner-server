@@ -64,7 +64,7 @@ export class UsersService {
     return { message: 'گاربر با موفقیت حذف شد' };
   }
 
-  async checkLoginUser(currentUser: currentUserDto) {
+  async dataUser(currentUser: currentUserDto) {
     if (!currentUser) throw new BadRequestException('عدم دسترسی');
     return currentUser;
   }
