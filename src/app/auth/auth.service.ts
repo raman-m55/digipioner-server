@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { SignInAuthDto } from './dto/signin-auth.dto';
-import { currentUserDto } from '../users/dto/currentUser.dto';
+import { CurrentUserDto } from '../users/dto/currentUser.dto';
 
 @Injectable()
 export class AuthService {
@@ -66,7 +66,7 @@ export class AuthService {
     return await this.jwtService.signAsync(payload, { secret, expiresIn });
   }
 
-  async checkLoginUser(currentUser: currentUserDto) {
+  async checkLoginUser(currentUser: CurrentUserDto) {
     if (currentUser && currentUser.role === 'admin') {
       return { isLogin: true, isAdmin: true };
     }

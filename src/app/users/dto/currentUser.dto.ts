@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Blog } from 'src/app/blogs/entities/blog.entity';
 import { Category } from 'src/app/categories/entities/category.entity';
 
-export class currentUserDto {
+export class CurrentUserDto {
   @ApiProperty()
   id: number;
 
@@ -28,4 +29,7 @@ export class currentUserDto {
 
   @ApiProperty({ type: () => [Category] })
   categories: Category[];
+
+  @ApiProperty({ type: () => [Blog] })
+  post_blogs: Blog[];
 }

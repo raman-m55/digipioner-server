@@ -11,7 +11,7 @@ export class MediaService {
   ) {}
   async uploadMedia(file: any) {
     const path = file.path;
-    const correctionPath = path.replace('static\\', '');
+    const correctionPath = path.replace(/static[\\/]/g, ''); // استفاده از رجکس برای حذف 'static/' و 'static\\'
     const newPath = 'https://digipionerapi.liara.run/' + correctionPath;
     const media = await this.mediaRepository.create({ path: newPath });
     await this.mediaRepository.save(media);

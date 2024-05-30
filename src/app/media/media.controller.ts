@@ -20,7 +20,6 @@ import { AuthenticationGuard } from 'src/utility/guards/authentication.guard';
 @ApiTags('Media')
 @Roles(Role.Admin)
 @UseGuards(AuthenticationGuard, AuthorizationGuard)
-@Controller('users')
 @Controller('media')
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
@@ -31,7 +30,7 @@ export class MediaController {
     return this.mediaService.uploadMedia(file);
   }
 
-  @Get('upload')
+  @Get()
   @UseInterceptors(FileInterceptor('file', multerOption))
   fineAll(@Query() pagingDto: PagingDto) {
     return this.mediaService.findAllMedia(pagingDto);

@@ -4,7 +4,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './entities/category.entity';
-import { currentUserDto } from '../users/dto/currentUser.dto';
+import { CurrentUserDto } from '../users/dto/currentUser.dto';
 import { PagingDto } from '../users/dto/Paging.dto';
 
 @Injectable()
@@ -15,12 +15,10 @@ export class CategoriesService {
   ) {}
   async createCategory(
     createCategoryDto: CreateCategoryDto,
-    currentUser: currentUserDto,
+    currentUser: CurrentUserDto,
   ) {
     const category = await this.categoryRepository.create(createCategoryDto);
     category.addedBy = currentUser;
-    console.log(category);
-    console.log(currentUser);
     await this.categoryRepository.save(category);
     return { message: 'دسته بندی با موفقیت ایجاد شد' };
   }
@@ -39,6 +37,13 @@ export class CategoriesService {
       skip: (page_number - 1) * per_page,
       take: per_page,
       relations: ['addedBy'],
+      select: {
+        addedBy: {
+          id: true,
+          username: true,
+          display_name: true,
+        },
+      },
     });
     return {
       results,
@@ -54,6 +59,13 @@ export class CategoriesService {
     const category = await this.categoryRepository.findOne({
       where: { id },
       relations: ['addedBy'],
+      select: {
+        addedBy: {
+          id: true,
+          username: true,
+          display_name: true,
+        },
+      },
     });
     return { category, message: 'دسته بندی با موفقیت یافت شد' };
   }

@@ -8,7 +8,7 @@ import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PagingDto } from './dto/Paging.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { currentUserDto } from './dto/currentUser.dto';
+import { CurrentUserDto } from './dto/currentUser.dto';
 
 @Injectable()
 export class UsersService {
@@ -65,7 +65,7 @@ export class UsersService {
     return { message: 'کاربر با موفقیت حذف شد' };
   }
 
-  async dataUser(currentUser: currentUserDto) {
+  async dataUser(currentUser: CurrentUserDto) {
     if (!currentUser) throw new BadRequestException('عدم دسترسی');
     return currentUser;
   }

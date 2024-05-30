@@ -4,14 +4,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class Category {
+export class Tag {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -34,6 +34,6 @@ export class Category {
   @ManyToOne(() => User, (user) => user.categories)
   addedBy: User;
 
-  @OneToMany(() => Blog, (blog) => blog.category)
+  @ManyToMany(() => Blog, (blog) => blog.category)
   posts: Blog[];
 }

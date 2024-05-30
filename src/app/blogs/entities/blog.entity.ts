@@ -1,33 +1,41 @@
-import { Blog } from 'src/app/blogs/entities/blog.entity';
 import { Category } from 'src/app/categories/entities/category.entity';
+import { Tag } from 'src/app/tags/entities/tag.entity';
+import { User } from 'src/app/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class User {
+export class Blog {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', nullable: false, unique: true })
-  username: string;
-
   @Column({ type: 'varchar', nullable: false })
-  display_name: string;
+  title: string;
 
   @Column({ type: 'varchar', nullable: false, unique: true })
-  email: string;
+  slug: string;
 
   @Column({ type: 'varchar', nullable: false })
-  password: string;
+  image: string;
 
   @Column({ type: 'varchar', nullable: false })
-  role: string;
+  excerpt: string;
+
+  @Column({ type: 'text', nullable: false })
+  content: string;
+
+  @Column({ type: 'int', nullable: true })
+  views: number;
+
+  @Column({ type: 'int', nullable: true })
+  likes: number;
 
   @CreateDateColumn({
     type: 'timestamp',
@@ -42,9 +50,12 @@ export class User {
   })
   updatedAt: Date;
 
-  @OneToMany(() => Category, (cat) => cat.addedBy)
-  categories: Category[];
+  @ManyToOne(() => Category, (cat) => cat.posts)
+  category: Category;
 
-  @OneToMany(() => Blog, (blog) => blog.author)
-  post_blogs: Blog[];
+  @ManyToMany(() => Tag, (tag) => tag.posts)
+  tags: Tag[];
+
+  @ManyToOne(() => User, (user) => user.post_blogs)
+  author: User;
 }

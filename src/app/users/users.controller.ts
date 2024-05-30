@@ -12,7 +12,7 @@ import {
 import { UsersService } from './users.service';
 import { PagingDto } from './dto/Paging.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { currentUserDto } from './dto/currentUser.dto';
+import { CurrentUserDto } from './dto/currentUser.dto';
 import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/utility/decorators/roles.decorator';
 import { AuthorizationGuard } from 'src/utility/guards/authorization.guard';
@@ -27,7 +27,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get('me')
-  async me(@CurrentUser() currentUser: currentUserDto) {
+  async me(@CurrentUser() currentUser: CurrentUserDto) {
     return await this.usersService.dataUser(currentUser);
   }
 
@@ -43,7 +43,7 @@ export class UsersController {
   @ApiResponse({
     status: 200,
     description: 'مشخاصت کاربر',
-    type: currentUserDto,
+    type: CurrentUserDto,
   })
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: string) {

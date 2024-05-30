@@ -10,6 +10,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { CategoriesModule } from './categories/categories.module';
 import * as path from 'path';
 import { CurrentUserMiddleware } from 'src/utility/middlewares/current-user.middleware';
+import { BlogsModule } from './blogs/blogs.module';
+import { TagsModule } from './tags/tags.module';
 
 @Module({
   imports: [
@@ -41,6 +43,8 @@ import { CurrentUserMiddleware } from 'src/utility/middlewares/current-user.midd
     UsersModule,
     MediaModule,
     CategoriesModule,
+    BlogsModule,
+    TagsModule,
   ],
   controllers: [],
   providers: [],

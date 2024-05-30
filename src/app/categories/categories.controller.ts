@@ -13,7 +13,7 @@ import {
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { CurrentUser } from 'src/utility/decorators/current-user.decorator';
-import { currentUserDto } from '../users/dto/currentUser.dto';
+import { CurrentUserDto } from '../users/dto/currentUser.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/utility/decorators/roles.decorator';
 import { AuthorizationGuard } from 'src/utility/guards/authorization.guard';
@@ -42,7 +42,7 @@ export class CategoriesController {
   @Post()
   create(
     @Body() createCategoryDto: CreateCategoryDto,
-    @CurrentUser() currentUser: currentUserDto,
+    @CurrentUser() currentUser: CurrentUserDto,
   ) {
     return this.categoriesService.createCategory(
       createCategoryDto,
