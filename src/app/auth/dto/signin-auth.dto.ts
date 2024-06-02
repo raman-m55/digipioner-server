@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, MaxLength, MinLength } from 'class-validator';
+import { Transform } from 'class-transformer';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class SignInAuthDto {
   @ApiProperty({
@@ -11,13 +18,21 @@ export class SignInAuthDto {
   @MaxLength(20, { message: 'نام کاربری نمی‌تواند بیش از ۲۰ کاراکتر باشد' })
   email: string;
 
+  @IsOptional()
+  @Transform(({ value }) => parseInt(value, 10), { toClassOnly: true })
   @ApiProperty({
-    description: 'رمز عبور کاربر',
-    minLength: 3,
-    maxLength: 20,
+    description: 'کد کاربر',
+    type: 'integer',
+    required: false,
   })
-  @IsNotEmpty({ message: 'لطفا رمز عبور را وارد کنید' })
-  @MinLength(3, { message: 'رمز عبور باید حداقل ۳ کاراکتر باشد' })
-  @MaxLength(20, { message: 'رمز عبور نمی‌تواند بیش از ۲۰ کاراکتر باشد' })
-  password: string;
+  code: number;
+  // @ApiProperty({
+  //   description: 'رمز عبور کاربر',
+  //   minLength: 3,
+  //   maxLength: 20,
+  // })
+  // @IsNotEmpty({ message: 'لطفا رمز عبور را وارد کنید' })
+  // @MinLength(3, { message: 'رمز عبور باید حداقل ۳ کاراکتر باشد' })
+  // @MaxLength(20, { message: 'رمز عبور نمی‌تواند بیش از ۲۰ کاراکتر باشد' })
+  // password: string;
 }

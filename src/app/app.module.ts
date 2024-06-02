@@ -1,3 +1,4 @@
+import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
 import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
@@ -12,6 +13,7 @@ import * as path from 'path';
 import { CurrentUserMiddleware } from 'src/utility/middlewares/current-user.middleware';
 import { BlogsModule } from './blogs/blogs.module';
 import { TagsModule } from './tags/tags.module';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
@@ -38,6 +40,31 @@ import { TagsModule } from './tags/tags.module';
     }),
     ServeStaticModule.forRoot({
       rootPath: path.join(__dirname, '../../', 'static'),
+    }),
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        transport: {
+          host: configService.get<string>('EMAIL_SERVER_HOST'),
+          post: configService.get<number>('EMAIL_SERVER_PORT'),
+          secure: true,
+          auth: {
+            user: configService.get<string>('EMAIL_USERNAME'),
+            pass: configService.get<string>('EMAIL_PASSWORD'),
+          },
+        },
+        defaults: {
+          from: '"welcome " <info@mail.benitech.ir>',
+        },
+        template: {
+          dir: process.cwd() + '/templates',
+          adapter: new EjsAdapter(),
+          options: {
+            strict: false,
+          },
+        },
+      }),
     }),
     AuthModule,
     UsersModule,

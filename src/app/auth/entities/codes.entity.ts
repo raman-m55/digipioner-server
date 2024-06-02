@@ -19,9 +19,17 @@ export class Codes {
   @Column({ type: 'boolean', nullable: true, default: false })
   is_used: boolean;
 
+  @Column({ type: 'boolean', nullable: true, default: false })
+  expired: boolean;
+
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
   createdAt: Date;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+  })
+  expiresAt: Date;
 }
