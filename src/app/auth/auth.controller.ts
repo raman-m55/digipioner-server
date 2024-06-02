@@ -1,6 +1,5 @@
 import { Controller, Post, Body, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignupAuthDto } from './dto/signup-auth.dto';
 import { SignInAuthDto } from './dto/signin-auth.dto';
 import { CurrentUser } from 'src/utility/decorators/current-user.decorator';
 import { CurrentUserDto } from '../users/dto/currentUser.dto';
@@ -23,11 +22,6 @@ export class AuthController {
     status: 400,
     description: ' نام کاربری که از قبل وجود دارد',
   })
-  @Post('sign-up')
-  create(@Body() signupAuthDto: SignupAuthDto) {
-    return this.authService.createUser(signupAuthDto);
-  }
-
   @ApiResponse({
     status: 200,
     description: 'مشخصات کاربر به علاوه توکن و مسیح',
@@ -36,9 +30,9 @@ export class AuthController {
     status: 400,
     description: 'کاربر ثبت نان نکرده است',
   })
-  @Post('sign-in')
+  @Post('otp')
   signIn(@Body() signupAuthDto: SignInAuthDto) {
-    return this.authService.signIn(signupAuthDto);
+    return this.authService.otp(signupAuthDto);
   }
 
   @ApiResponse({

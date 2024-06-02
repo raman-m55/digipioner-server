@@ -48,14 +48,14 @@ import { MailerModule } from '@nestjs-modules/mailer';
         transport: {
           host: configService.get<string>('EMAIL_SERVER_HOST'),
           post: configService.get<number>('EMAIL_SERVER_PORT'),
-          secure: true,
+          secure: false,
           auth: {
             user: configService.get<string>('EMAIL_USERNAME'),
             pass: configService.get<string>('EMAIL_PASSWORD'),
           },
         },
         defaults: {
-          from: '"welcome " <info@mail.benitech.ir>',
+          from: 'welcome  <info@mail.benitech.ir>',
         },
         template: {
           dir: process.cwd() + '/templates',
