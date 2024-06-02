@@ -51,7 +51,7 @@ export class AuthService {
         if (userExists) {
           const accessToken = await this.createJwtToken(userExists.id);
           return {
-            userExists,
+            user: userExists,
             accessToken,
             message: 'ورود با موفقیت انجام شد',
           };
@@ -62,7 +62,7 @@ export class AuthService {
           await this.userRepository.save(newUser);
           const accessToken = await this.createJwtToken(newUser.id);
           return {
-            newUser,
+            user: newUser,
             accessToken,
             message: 'ورود با موفقیت انجام شد',
           };

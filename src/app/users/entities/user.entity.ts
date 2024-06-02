@@ -1,5 +1,6 @@
 import { Blog } from 'src/app/blogs/entities/blog.entity';
 import { Category } from 'src/app/categories/entities/category.entity';
+import { Role } from 'src/utility/common/user-role.enum';
 import {
   Column,
   CreateDateColumn,
@@ -26,8 +27,12 @@ export class User {
   @Column({ type: 'varchar', nullable: true })
   password: string;
 
-  @Column({ type: 'varchar', nullable: true })
-  role: string;
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.User,
+  })
+  role: Role;
 
   @CreateDateColumn({
     type: 'timestamp',
